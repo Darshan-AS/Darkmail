@@ -11,7 +11,8 @@ class Inbox:
         self.__service = authenticator.get_service()
 
     def get_messages(self):
-        response = self.__service.users().messages().list(userId='me').execute()
+        response = self.__service.users().messages().list(
+            userId='me', maxResults=10, labelIds=['INBOX']).execute()
         messages_list = []
         if 'messages' in response:
             messages_list.extend(response['messages'])
@@ -28,7 +29,8 @@ class Inbox:
         for message in messages_list:
             try:
                 m = self.__service.users().messages().get(
-                    userId='me', id=message['id'], format='minimal').execute()
+                    userId='me', id=message['id'], format='metadata',
+                    metadataHeaders=['To', 'From', 'Subject', 'Date']).execute()
 
                 messages.append(m)
 

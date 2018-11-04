@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+</head>
+<body>
+{% for message in messages %}
+    {% for header in message.payload.headers %}
+        <h3>{{ header.name }} : {{ header.value }}</h3>
+    {% endfor %}
+    <p>{{ message.snippet }}</p>
+    <hr>
+{% endfor %}
+</body>
+</html>
