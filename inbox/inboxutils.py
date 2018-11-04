@@ -11,7 +11,7 @@ class Inbox:
         self.__service = authenticator.get_service()
 
     def get_messages(self):
-        response = self.__service.users().messages().list(userId='me', q='raw').execute()
+        response = self.__service.users().messages().list(userId='me').execute()
         messages_list = []
         if 'messages' in response:
             messages_list.extend(response['messages'])
@@ -27,8 +27,10 @@ class Inbox:
         messages = []
         for message in messages_list:
             try:
-                messages.append(self.__service.users().messages().get(
-                    userId='me', id=message['id']).execute())
+                m = self.__service.users().messages().get(
+                    userId='me', id=message['id'], format='minimal').execute()
+
+                messages.append(m)
 
             except errors.HttpError as error:
                 print('An error occurred: %s', error)
