@@ -3,7 +3,9 @@ from __future__ import print_function
 from django.http import HttpResponse
 from django.shortcuts import render
 
-# inbox = Inbox()
+from inbox.inboxutils import InboxUtils
+
+inbox_utils = InboxUtils()
 messages = [{'id': '166de77315e49ab6', 'threadId': '166de77315e49ab6',
              'labelIds': ['UNREAD', 'IMPORTANT', 'CATEGORY_UPDATES', 'INBOX'],
              'snippet': '04 Nov, 2018 Hi Darshan Don Top companies like Cognizant, TCS, IBM, Infosys, HCL &amp; other IT Companies are hiring 10000 Candidates in Coming Next Month. Check out the jobs below &amp; apply ASAP.',
@@ -110,9 +112,10 @@ messages = [{'id': '166de77315e49ab6', 'threadId': '166de77315e49ab6',
 
 # Create your views here.s
 def inbox(request):
-    # messages = inbox.get_messages()
+    messages = inbox_utils.get_messages()
     return render(request, 'inbox/inbox.html', {'messages': messages})
 
 
-def details(request, messageid):
-    return HttpResponse('Works')
+def details(request, message_id):
+    detailed_message = inbox_utils.get_detailed_message(message_id)
+    return HttpResponse(detailed_message)

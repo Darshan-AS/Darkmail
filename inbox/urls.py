@@ -6,5 +6,5 @@ app_name = 'inbox'
 
 urlpatterns = [
     path('', views.inbox, name='inbox'),
-    path('<str:messageid>', views.details, name='details')
+    path('<str:message_id>', views.details, name='details')
 ]

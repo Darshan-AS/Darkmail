@@ -1,9 +1,12 @@
+import base64
+import email
+
 from googleapiclient import errors
 
 from apiauth.authenticate import Authenticator
 
 
-class Inbox:
+class InboxUtils:
     SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 
     def __init__(self):
@@ -38,3 +41,27 @@ class Inbox:
                 print('An error occurred: %s', error)
 
         return messages
+
+    def get_detailed_message(self, message_id):
+        global mime_msg
+        try:
+            message = self.__service.users().messages().get(
+                userId='me', id=message_id, format='raw').execute()
+
+            msg_str = base64.urlsafe_b64decode(message['raw'].encode('ASCII')).decode("utf-8")
+            mime_msg = email.message_from_string(msg_str)
+
+        except errors.HttpError as error:
+            print('An error occurred: %s', error)
+
+        decoded_message = ''
+        for part in mime_msg.walk():
+            if part.get_content_maintype() == 'multipart':
+                continue
+            name = part.get_param("name")
+            content_type = part.get_content_type()
+            print(name)
+            if name is None and content_type == 'text/html':
+                decoded_message += part.get_payload(decode=1).decode("utf-8")
+
+        return decoded_message
