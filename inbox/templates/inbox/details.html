@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Details
+{% endblock %}
+
+{% block body %}
+    <script>
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+            obj.style.width = '100%'
+        }
+    </script>
+
+    <h1>Some Text</h1>
+    <iframe srcdoc="{{ message_body }}" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>
+{% endblock %}

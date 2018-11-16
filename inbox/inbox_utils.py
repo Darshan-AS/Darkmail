@@ -7,11 +7,10 @@ from apiauth.authenticate import Authenticator
 
 
 class InboxUtils:
-    SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 
-    def __init__(self):
-        authenticator = Authenticator(self.SCOPES)
-        self.__service = authenticator.get_service()
+    def __init__(self, auth_code=None):
+        authenticator = Authenticator()
+        self.__service = authenticator.get_service(auth_code)
 
     def get_messages(self):
         response = self.__service.users().messages().list(

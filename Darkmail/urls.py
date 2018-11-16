@@ -18,5 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('apiauth.urls')),
     path('inbox/', include('inbox.urls')),
+    path('compose/', include('compose.urls')),
 ]

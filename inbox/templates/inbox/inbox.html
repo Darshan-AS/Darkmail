@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Inbox
+{% endblock %}
+
+{% block body %}
+    <script>
+        window.onload = function () {
+            const articles = document.getElementsByTagName('article');
+            for (let i = 0; i < articles.length; i++) {
+                const article = articles[i];
+                article.onclick = function () {
+                    document.location.href = this.dataset.url;
+                }
+            }
+        }
+    </script>
+
+    {% for message in messages %}
+        <article data-url="{% url 'inbox:details' message.id %}">
+            {% for header in message.payload.headers %}
+                <h3>{{ header.name }} : {{ header.value }}</h3>
+            {% endfor %}
+            <p>{{ message.snippet }}</p>
+        </article>
+        <hr>
+    {% endfor %}
+{% endblock %}
