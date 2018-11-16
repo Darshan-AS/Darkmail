@@ -1,9 +1,21 @@
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from apiauth.authenticate import Authenticator
 
+authenticator = Authenticator()
 
 def index(request):
-    authenticator = Authenticator()
-    url = authenticator.get_authorization_url(None)
-    return HttpResponseRedirect(url)
+    if Authenticator.SESSION.get('credentials') is None:
+        url = authenticator.get_authorization_url()
+    else:
+        url = reverse('inbox:inbox')
+
+    return render(request, 'index.html', context={'url': url})
+
+
+def login(request):
+    auth_code = request.GET.get('code')
+    authenticator.get_credentials(auth_code)
+
+    return redirect('inbox:inbox')

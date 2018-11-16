@@ -8,9 +8,9 @@ from apiauth.authenticate import Authenticator
 
 class ComposeUtils:
 
-    def __init__(self, auth_code=None):
+    def __init__(self):
         authenticator = Authenticator()
-        self.__service = authenticator.get_service(auth_code)
+        self.__service = authenticator.get_service()
 
     def create_message(self, sender, to, subject, message_text):
         message = MIMEText(message_text)

@@ -7,9 +7,7 @@ from inbox.inbox_utils import InboxUtils
 
 # Create your views here.s
 def inbox(request):
-    auth_code = request.GET.get('code')
-    request.session['authorization_code'] = auth_code
-    inbox_utils = InboxUtils(auth_code)
+    inbox_utils = InboxUtils()
     messages = inbox_utils.get_messages()
     context = {'messages': messages}
     return render(request, 'inbox/inbox.html', context)

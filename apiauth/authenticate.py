@@ -1,8 +1,10 @@
 from __future__ import print_function
 
 import logging
+from importlib import import_module
 
 import httplib2
+from django.conf import settings
 from googleapiclient import errors
 from googleapiclient.discovery import build
 from httplib2 import Http
@@ -11,12 +13,13 @@ from oauth2client.client import flow_from_clientsecrets
 
 from Darkmail.settings import BASE_DIR
 
+SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 class Authenticator:
-    CREDENTIALS = None
+    SESSION = SessionStore()
 
     CLIENTSECRETS_LOCATION = BASE_DIR + '/client_secret.json'
-    REDIRECT_URI = 'http://127.0.0.1:8000/inbox/'
+    REDIRECT_URI = 'http://127.0.0.1:8000/login'
     SCOPES = [
         'https://www.googleapis.com/auth/gmail.readonly',
         'https://www.googleapis.com/auth/userinfo.email',
@@ -37,8 +40,8 @@ class Authenticator:
         authorization_url = flow.step1_get_authorize_url(self.REDIRECT_URI, state)
         return authorization_url
 
-    def get_service(self, auth_code):
-        credentials = self.get_credentials(auth_code)
+    def get_service(self):
+        credentials = self.get_credentials()
         service = build('gmail', 'v1', http=credentials.authorize(Http()))
         return service
 
@@ -52,7 +55,7 @@ class Authenticator:
             logging.error('An error occurred: %s', error)
             raise CodeExchangeException(None)
 
-    def get_credentials(self, authorization_code, state=None):
+    def get_credentials(self, authorization_code=None, state=None):
         """Retrieve credentials using the provided authorization code.
 
       This function exchanges the authorization code for an access token and queries
@@ -77,14 +80,15 @@ class Authenticator:
         email_address = ''
         try:
             if authorization_code is None:
-                return Authenticator.CREDENTIALS
+                return Authenticator.SESSION.get('credentials')
             credentials = self.exchange_code(authorization_code)
             user_info = self.get_user_info(credentials)
             email_address = user_info.get('email')
             user_id = user_info.get('id')
             if credentials.refresh_token is not None:
                 # store_credentials(user_id, credentials)
-                Authenticator.CREDENTIALS = credentials
+                Authenticator.SESSION['credentials'] = credentials
+                print(Authenticator.SESSION.get('credentials'))
                 return credentials
             else:
                 credentials = get_stored_credentials(user_id)
