@@ -19,3 +19,9 @@ def login(request):
     authenticator.get_credentials(auth_code)
 
     return redirect('inbox:inbox')
+
+
+def logout(request):
+    if Authenticator.SESSION.get('credentials') is not None:
+        Authenticator.SESSION['credentials'] = None
+    return redirect('apiauth:index')
