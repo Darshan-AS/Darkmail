@@ -6,4 +6,5 @@ app_name = 'compose'
 
 urlpatterns = [
     path('', views.compose, name='compose'),
+    path('send', views.send, name='send')
 ]

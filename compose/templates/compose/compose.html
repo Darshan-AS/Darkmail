@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Compose
+{% endblock %}
+
+{% block body %}
+    <form action="{% url 'compose:send' %}" method="post">
+        {% csrf_token %}
+        <label>
+            <h3>Email</h3>
+            <input type="email" name="to">
+        </label>
+        <label>
+            <h3>Subject</h3>
+            <input type="text" name="subject">
+        </label>
+        <label>
+            <h3>Message</h3>
+            <textarea name="body" rows="10" cols="30"></textarea>
+        </label>
+        <br>
+        <input type="submit" value="Send">
+    </form>
+{% endblock %}
