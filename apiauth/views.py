@@ -6,22 +6,23 @@ from apiauth.authenticate import Authenticator
 authenticator = Authenticator()
 
 def index(request):
-    if Authenticator.SESSION.get('credentials') is None:
-        url = authenticator.get_authorization_url()
-    else:
-        url = reverse('inbox:inbox')
-
-    return render(request, 'index.html', context={'url': url})
+    login_url = reverse('apiauth:login')
+    return render(request, 'index.html', context={'url': login_url})
 
 
 def login(request):
-    auth_code = request.GET.get('code')
-    authenticator.get_credentials(auth_code)
+    if 'code' in request.GET:
+        c, u = authenticator.get_credentials(
+            request.GET.get('code'), request.GET.get('state'))
+        request.session['username'] = u
+        request.session['access_token'] = c.access_token
 
-    return redirect('inbox:inbox')
+    if 'username' in request.session and 'access_token' in request.session:
+        return redirect('inbox:inbox')
+
+    return redirect(authenticator.get_authorization_url())
 
 
 def logout(request):
-    if Authenticator.SESSION.get('credentials') is not None:
-        Authenticator.SESSION['credentials'] = None
+    request.session.flush()
     return redirect('apiauth:index')

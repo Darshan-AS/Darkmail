@@ -8,9 +8,9 @@ from apiauth.authenticate import Authenticator
 
 class InboxUtils:
 
-    def __init__(self):
+    def __init__(self, access_token, user_agent):
         authenticator = Authenticator()
-        self.__service = authenticator.get_service()
+        self.__service = authenticator.get_service(access_token, user_agent)
 
     def get_messages(self):
         response = self.__service.users().messages().list(
