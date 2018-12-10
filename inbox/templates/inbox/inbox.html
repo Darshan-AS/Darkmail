@@ -1,29 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}
     Inbox
 {% endblock %}
 
-{% block body %}
-    <script>
-        window.onload = function () {
-            const articles = document.getElementsByTagName('article');
-            for (let i = 0; i < articles.length; i++) {
-                const article = articles[i];
-                article.onclick = function () {
-                    document.location.href = this.dataset.url;
-                }
-            }
-        }
-    </script>
 
-    {% for message in messages %}
-        <article data-url="{% url 'inbox:details' message.id %}">
-            {% for header in message.payload.headers %}
-                <h3>{{ header.name }} : {{ header.value }}</h3>
+{% block link %}
+    <link rel="stylesheet" href="{% static 'inbox/css/inbox.css' %}">
+    <script src="{% static 'inbox/js/inbox.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="card-columns">
+            {% for message in messages %}
+                <article class="card message bg-light" data-url="{% url 'inbox:details' message.id %}">
+                    <div class="card-header">
+                        {{ message.From }}
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ message.Subject }}</h5>
+                        <p class="card-text">{{ message.snippet }}</p>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        {{ message.Date }}
+                    </div>
+                </article>
             {% endfor %}
-            <p>{{ message.snippet }}</p>
-        </article>
-        <hr>
-    {% endfor %}
+        </div>
+    </div>
 {% endblock %}
