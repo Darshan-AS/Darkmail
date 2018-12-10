@@ -11,15 +11,6 @@
 {% endblock %}
 
 {% block body %}
-    <!--
-    <div class="container">
-        <h4 style="margin-bottom: 50px" class="text-white">{{ message.Subject }}</h4>
-        <h5 class="text-white">{{ message.From }}</h5>
-        <h5 class="text-muted">{{ message.Date }}</h5>
-        <iframe srcdoc="{{ message.body }}" frameborder="0" scrolling="no" style="visibility: hidden"
-                onload="resizeIframe(this)"></iframe>
-    </div>
-    -->
     <div class="container">
         <article class="card bg-dark">
             <div class="card-header text-white">
@@ -30,8 +21,6 @@
 
                 <iframe srcdoc="{{ message.body }}" frameborder="0" scrolling="no" style="visibility: hidden"
                         onload="resizeIframe(this)"></iframe>
-
-                <!--{{ message.body }}-->
             </div>
 
             <div class="card-footer text-muted">
