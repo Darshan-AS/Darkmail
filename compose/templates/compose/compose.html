@@ -16,16 +16,16 @@
             {% csrf_token %}
             <div class="form-group">
                 <label class="col-form-label-lg" for="to">Email address</label>
-                <input type="email" class="form-control form-control-lg bg-dark col-md-6" id="to"
+                <input type="email" class="form-control form-control-lg bg-dark col-md-6" name="to" id="to"
                        placeholder="name@example.com">
             </div>
             <div class="form-group">
                 <label class="col-form-label-lg" for="subject">Subject</label>
-                <input type="text" class="form-control form-control-lg bg-dark col-md-6" id="subject">
+                <input type="text" class="form-control form-control-lg bg-dark col-md-6" name="subject" id="subject">
             </div>
             <div class="form-group">
                 <label class="col-form-label-lg" for="message">Message</label>
-                <textarea class="form-control form-control-lg bg-dark" id="message" rows="10"></textarea>
+                <textarea class="form-control form-control-lg bg-dark" name="message" id="message" rows="10"></textarea>
             </div>
             <button type="submit" class="btn btn-primary mb-2 col-md-1 col-form-label-lg">Send</button>
         </form>

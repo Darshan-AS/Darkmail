@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from compose.compose_utils import ComposeUtils
@@ -14,11 +13,11 @@ def send(request):
 
     to = request.POST['to']
     subject = request.POST['subject']
-    body = request.POST['body']
+    body = request.POST['message']
 
     compose_utils = ComposeUtils(request.session.get('access_token'),
                                  request.META['HTTP_USER_AGENT'])
-    message = compose_utils.create_message('itisdarshan@gmail.com', to, subject, body)
+    message = compose_utils.create_message('me', to, subject, body)
     compose_utils.send_message('me', message)
 
-    return HttpResponse(to + '\n' + subject + '\n' + body)
+    return redirect('inbox:inbox')
