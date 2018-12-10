@@ -1,0 +1,10 @@
+body {
+    background-image: radial-gradient(circle, #707070, #1A1A1A, #1A1A1A);
+}
+
+.card {
+    border-radius: 2px;
+    margin: 1rem;
+    position: relative;
+}
+

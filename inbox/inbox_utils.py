@@ -42,12 +42,15 @@ class InboxUtils:
         return messages
 
     def get_detailed_message(self, message_id):
-        global mime_msg
+        global mime_msg, m, message
         try:
-            message = self.__service.users().messages().get(
+            m = self.__service.users().messages().get(
                 userId='me', id=message_id, format='raw').execute()
 
-            msg_str = base64.urlsafe_b64decode(message['raw'].encode('ASCII')).decode("utf-8")
+            message = self.__service.users().messages().get(
+                userId='me', id=message_id, format='metadata').execute()
+
+            msg_str = base64.urlsafe_b64decode(m['raw'].encode('ASCII')).decode("utf-8")
             mime_msg = email.message_from_string(msg_str)
 
         except errors.HttpError as error:
@@ -59,8 +62,9 @@ class InboxUtils:
                 continue
             name = part.get_param("name")
             content_type = part.get_content_type()
-            print(name)
             if name is None and content_type == 'text/html':
                 decoded_message += part.get_payload(decode=1).decode("utf-8")
 
-        return decoded_message
+        message['body'] = decoded_message
+
+        return message
