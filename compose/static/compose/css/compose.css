@@ -1,0 +1,17 @@
+body {
+    background-image: radial-gradient(circle, #707070, #1A1A1A, #1A1A1A);
+}
+
+input, textarea {
+    border: 1px solid gray !important;
+    color: white !important;
+}
+
+
+input:focus, textarea:focus {
+    box-shadow: 10px 14px 28px #3F3F3F !important;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: grey !important;
+}
