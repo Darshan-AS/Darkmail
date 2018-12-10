@@ -1,3 +1,18 @@
 body {
     background-image: radial-gradient(circle, #707070, #1A1A1A);
 }
+
+
+.fab {
+    border-radius: 30px;
+    text-align: center;
+    color: #FFF;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5), 3px 3px 3px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    font-size: 20px;
+    padding: 10px;
+    display: inline-block;
+    cursor: default;
+}
