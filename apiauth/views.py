@@ -5,6 +5,7 @@ from apiauth.authenticate import Authenticator
 
 authenticator = Authenticator()
 
+
 def index(request):
     login_url = reverse('apiauth:login')
     return render(request, 'index.html', context={'url': login_url})

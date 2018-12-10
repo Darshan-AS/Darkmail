@@ -15,8 +15,8 @@ from Darkmail.settings import BASE_DIR
 
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
-class Authenticator:
 
+class Authenticator:
     CLIENTSECRETS_LOCATION = BASE_DIR + '/client_secret.json'
     REDIRECT_URI = 'http://127.0.0.1:8000/login'
     SCOPES = [
