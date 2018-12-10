@@ -12,10 +12,10 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="card-columns">
             {% for message in messages %}
-                <article class="card message bg-light" data-url="{% url 'inbox:details' message.id %}">
+                <article class="card message text-white bg-dark" data-url="{% url 'inbox:details' message.id %}">
                     <div class="card-header">
                         {{ message.From }}
                     </div>
